@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Иран қалалары</title>
+    <style>
+        table, th, td { border: 1px solid black; border-collapse: collapse; padding: 5px; }
+        th { background-color: #eee; }
+    </style>
+</head>
+<body>
+    <h3>Иран қалаларының ауа райы</h3>
+
+    <form method="post">
+        {% csrf_token %}
+        <button name="run" type="submit">Орындау</button>
+        <button name="task" type="submit">Тапсырма</button>
+        <button name="clear" type="submit">Тазалау</button>
+    </form>
+
+    <br>
+
+    {% if results %}
+    <table>
+        <tr>
+            <th>№</th>
+            <th>Қала</th>
+            <th>Температура</th>
+            <th>Ылғалдылық</th>
+            <th>Сипаттама</th>
+        </tr>
+
+        {% for r in results %}
+        <tr>
+            <td>{{ r.nomer }}</td>
+            <td>{{ r.city }}</td>
+            <td>{{ r.temp }}</td>
+            <td>{{ r.humidity }}</td>
+            <td>{{ r.desc }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+    <br><a href="{% url 'index' %}">Басты бетке оралу</a>
+
+</body>
+</html>

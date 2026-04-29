@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кір жуғыш машина таңдау және сатып алу</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3 class="mb-0">Кір жуғыш машина таңдау және сатып алу</h3>
+
+        <!-- ЖАҢА БАТЫРМА: Есептің шарты -->
+        <a href="{% url 'lab7_tapsyrma' %}" class="btn btn-info" target="_blank">
+            Есептің шарты
+        </a>
+    </div>
+
+    <!-- Ошибки -->
+    {% if errors %}
+        <div class="alert alert-warning">
+            {% for e in errors %}
+                <div>{{ e }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- Форма выбора -->
+    <form method="post" target="_blank" class="card p-3 mb-4">
+        {% csrf_token %}
+        <div class="row mb-3">
+
+            <!-- Бренд -->
+            <div class="col-md-3">
+                <label class="form-label">Брендті таңдаңыз:</label>
+                <select name="brand" class="form-select">
+                    {% for b in brands %}
+                        <option value="{{ b }}">{{ b }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Тип -->
+            <div class="col-md-3">
+                <label class="form-label">Түрін таңдаңыз:</label>
+                <select name="washer_type" class="form-select">
+                    {% for t in washer_types %}
+                        <option value="{{ t }}">{{ t }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="col-md-3">
+                <label class="form-label">Сыйымдылығы (кг):</label>
+                <input type="number" name="capacity" class="form-control"
+                    min="3" max="15" step="1" value="5">
+            </div>
+
+            <!-- Түсі -->
+            <div class="col-md-3">
+                <label class="form-label">Түсі:</label>
+                <select name="color" class="form-select">
+                    {% for c in colors %}
+                        <option value="{{ c }}">{{ c }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+        </div>
+
+        <div class="row mb-3">
+            <!-- Бағасы -->
+            <div class="col-md-3">
+                <label class="form-label">Бағасы (KZT):</label>
+                <input type="number" name="price" class="form-control" min="0" step="1000">
+            </div>
+        </div>
+
+        <!-- Кнопки формы -->
+        <div class="d-flex gap-2">
+            <button type="submit" name="add_row" class="btn btn-primary">
+                Кестеге қосу
+            </button>
+
+            <button type="submit" name="clear_all" class="btn btn-secondary">
+                Тазарту
+            </button>
+
+            <!-- Тапсырма → открывается в новой вкладке -->
+            <button type="submit" name="filter" class="btn btn-success ms-auto">
+                Тапсырма (жаңа бетте ашылады)
+            </button>
+        </div>
+    </form>
+
+
+    <!-- Негізгі кесте -->
+    <div class="card mb-4">
+        <div class="card-header">Негізгі кесте</div>
+
+        <div class="card-body p-0">
+            <div class="table-responsive">
+
+                <table class="table table-bordered table-striped text-center mb-0">
+
+                    <thead class="table-light">
+                    <tr>
+                        <th>№</th>
+                        <th>Бренді</th>
+                        <th>Түрі</th>
+                        <th>Сыйымдылығы (кг)</th>
+                        <th>Түсі</th>
+                        <th>Бағасы</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    {% if rows %}
+                        {% for r in rows %}
+                            <tr>
+                                <td>{{ r.no }}</td>
+                                <td>{{ r.brand }}</td>
+                                <td>{{ r.washer_type }}</td>
+                                <td>{{ r.capacity }}</td>
+                                <td>{{ r.color }}</td>
+                                <td>{{ r.price|floatformat:0 }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="6" class="text-muted">
+                                Мәліметтер жоқ
+                            </td>
+                        </tr>
+                    {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

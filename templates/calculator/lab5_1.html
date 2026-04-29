@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Парсинг пылесосов</title>
+</head>
+<body>
+
+<h2>Все пылесосы с Technodom</h2>
+
+<form method="get">
+    <button name="run" value="1">Орындау</button>
+    <button type="submit" name="excel"
+        class="btn btn-secondary"
+        {% if not products %}disabled style="background-color: #ccc; cursor: not-allowed;"{% endif %}>
+    Excel-ге шығару
+</button>
+    <button name="clear" value="1">Тазалау</button>
+</form>
+
+<hr>
+
+{% if products %}
+<table border="1" cellpadding="5">
+    <tr>
+        <th>№</th>
+        <th>Имя</th>
+        <th>Бренд</th>
+        <th>Цена</th>
+        <th>Артикул</th>
+        <th>Код товара</th>
+        <th>Ссылкка</th>
+        <th>Картинку</th>
+    </tr>
+    {% for p in products %}
+<tr>
+    <td>{{ forloop.counter }}</td>
+    <td>{{ p.name }}</td>
+    <td>{{ p.brand }}</td>
+    <td>{{ p.price }}</td>
+    <td>{{ p.sku }}</td>
+    <td>{{ p.code }}</td>
+    <td>{{ p.link }}</td>
+    <td><img src="{{ p.image }}" width="30"></td>
+</tr>
+{% endfor %}
+
+</table>
+{% else %}
+{% endif %}
+        <br><a href="{% url 'index' %}">Басты бетке оралу</a>
+
+</body>
+</html>
